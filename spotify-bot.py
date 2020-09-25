@@ -7,11 +7,12 @@ import sys
 from telegram.ext import Updater, InlineQueryHandler, CommandHandler
 import telegram
 import pathlib
+import upload
 
 class TelegramBot:
 
     def __init__(self):
-        token = 'SEU TOKEN AQUI'
+        token = 'TOKEN AQUI'
         self.url_base = f'https://api.telegram.org/bot{token}/'
 
     #Lê partes ecenciais da menssagem retorno do telegram
@@ -23,9 +24,11 @@ class TelegramBot:
             if dados:
                 for dado in dados:
                     update_id = dado['update_id']
-                    mensagem = str(dado["message"])
+                    mensagem = str(dado['message']['text'])
+                    name_user = str(dado["message"]["from"]["first_name"])
+                    self.name_user = name_user
                     chat_id = dado["message"]["from"]["id"]
-                    self.id = chat_id
+                    self.ids = chat_id
                     eh_primeira_mensagem = int(
                         dado["message"]["message_id"]) == 1
                     resposta = self.criar_resposta(
@@ -33,7 +36,7 @@ class TelegramBot:
                     self.responder(resposta, chat_id)
     # Obtem mensagens
     def obter_novas_mensagens(self, update_id):
-        link_requisicao = f'{self.url_base}getUpdates?timeout=100'
+        link_requisicao = f'{self.url_base}getUpdates?timeout=1000'
         if update_id:
             link_requisicao = f'{link_requisicao}&offset={update_id + 1}'
         resultado = requests.get(link_requisicao)
@@ -41,52 +44,44 @@ class TelegramBot:
 
     # Manda musica para o bot
     def criar_resposta(self, mensagem, eh_primeira_mensagem):
-        def up():
-            TOKEN = token
-            bot = telegram.Bot(token=TOKEN)
-            chat_id1 = self.id
-            lista = glob.glob('*.mp3')
-            numero_de_musicas = len(lista)
-            at = numero_de_musicas - 1
-            aw = 0
+        loc_txt = '/home/dryrtan/Documentos/Spotify_bot/musicas.txt'
 
-            while aw <= at:
-                musica = lista[aw]
-                bot.send_audio(chat_id=chat_id1, audio=open('/home/dryrtan/Documentos/Spotify_bot/' + musica, 'rb'))
-                aw = aw +1
-
-            else:
-                os.system('rm -rf *.mp3')
     # Responde de acordo com o que ouver no campo 'text' da menssagem de retorno do telegram
         if eh_primeira_mensagem == True or mensagem in ('menu', 'Menu'):
-            return f'''Ola, sou um Bot de download de musicas e playlist do Spotify, manda o link e o resto deixa comigo 😊'''
+            return f''''''
         if mensagem == '/start':
-            return f'''Ola, sou um Bot de download de musicas e playlist do Spotify, manda o link e o resto deixa comigo 😊'''
+            return f'Olá ' + self.name_user + ', sou um Bot de download de musicas e playlist do Spotify, manda o link e o resto deixa comigo 😊'
         
         elif 'track' in mensagem:
+            upload.sms(self.ids, 'Estamos baixando sua musica, agorinha enviamos.')
             os.system('spotdl --song ' + mensagem)
-            return f'''Terminei de sua musicas,{os.linesep}Quer receber as musicas agora?{os.linesep}/sim                      /nao'''
+            return f'''Quer receber as musicas agora?{os.linesep}/sim                      /nao'''
         
         elif 'album' in mensagem:
-            os.system('spotdl --album ' + mensagem + ' --write-to=/home/dryrtan/Documentos/Spotify_bot/musicas.txt && spotdl --list=musicas.txt && rm -rf musicas.txt')
-            return f'''Baixando seu album,{os.linesep}Quer receber as musicas agora?{os.linesep}/sim                      /nao'''
+            upload.sms(self.ids, 'Estamos baixando sua musica, agorinha enviamos.')
+            os.system('spotdl --album ' + mensagem + ' --write-to=' + loc_txt + ' && spotdl --list=musicas.txt && rm -rf musicas.txt')
+            return f'''Quer receber as musicas agora?{os.linesep}/sim                      /nao'''
         
         elif 'playlist' in mensagem:
-            os.system('spotdl --playlist ' + mensagem + ' --write-to=/home/dryrtan/Documentos/Spotify_bot/musicas.txt && spotdl --list=musicas.txt && rm -rf musicas.txt')
-            return f'''Baixando sua playlist,{os.linesep}Quer receber as musicas agora?{os.linesep}/sim                      /nao'''
+            upload.sms(self.ids, 'Estamos baixando sua musica, agorinha enviamos.')
+            os.system('spotdl --playlist ' + mensagem + ' --write-to=' + loc_txt + ' && spotdl --list=musicas.txt && rm -rf musicas.txt')
+            return f'''Quer receber as musicas agora?{os.linesep}/sim                      /nao'''
 
         elif 'artist' in mensagem:
-            os.system('spotdl --all-albums ' + mensagem + ' --write-to=/home/dryrtan/Documentos/Spotify_bot/musicas.txt  && spotdl --list=musicas.txt && rm -rf musicas.txt')
-            return f'''Baixando sua playlist,{os.linesep}Quer receber as musicas agora?{os.linesep}/sim                      /nao'''
+            upload.sms(self.ids, 'Estamos baixando sua musica, agorinha enviamos.')
+            os.system('spotdl --all-albums ' + mensagem + ' --write-to=' + loc_txt + '  && spotdl --list=musicas.txt && rm -rf musicas.txt')
+            return f'''Quer receber as musicas agora?{os.linesep}/sim                      /nao'''
 
         elif 'episode' in mensagem:
             return f'''Eita, infelismente não posso fazer download de podcasts, desculpe, que tal uma música em?! '''
 
         elif mensagem.lower() in ('s', 'sim', '/sim'):
-            up()
+            upload.down(self.ids)
+            return f'''Todas as sua musicas foram enviadas 😊'''
         elif mensagem.lower() in ('n', 'nao', '/nao'):
-            return f'''Como quiser, mas se não poder baixar agora pode ser que aconteça bugs.'''
+            return f'''Como quiser, mas se não poder baixar agora pode ser que aconteça alguns bugs. 😬'''
         else:
+            print(mensagem)
             return f'''Humm... acho melhor você da uma olhadinha nesse link, não consegui entender. 🤔 🤷🏻‍♂️'''
 
 
