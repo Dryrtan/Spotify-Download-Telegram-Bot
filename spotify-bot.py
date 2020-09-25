@@ -1,3 +1,4 @@
+#Codado Por Kleidimar Martins - Dryrtan d(-_-)b
 import requests
 import time
 import json
