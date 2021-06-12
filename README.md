@@ -6,7 +6,7 @@ O Funcionamento é muito simples, envie um link de música, playlist ou discogra
 Você pode acessar ele atraves do link dele no Telegram -> http://t.me/Dryrtanbot
 ##
 
-##O que é preciso para fazer funcionar na sua maquina??
+## O que é preciso para fazer funcionar na sua maquina??
 - Primeiro vamos começar instalando as dependencias
 ```shell
 sudo apt update && sudo apt install python3 -y
