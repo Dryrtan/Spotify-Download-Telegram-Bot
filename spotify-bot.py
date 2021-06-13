@@ -7,7 +7,7 @@ import upload
 class TelegramBot:
 
     def __init__(self):
-        token = '--->SEU TOKEN AQUI<---'
+        token = '926059547:AAG_lorlGkY03hnubzhshJOxtkgLB93Axic'
         self.url_base = f'https://api.telegram.org/bot{token}/'
 
     #Lê partes ecenciais da menssagem retorno do telegram
@@ -42,7 +42,7 @@ class TelegramBot:
         
     # Responde de acordo com o que ouver no campo 'text' da menssagem de retorno do telegram
         if eh_primeira_mensagem == True or mensagem in ('menu', 'Menu'):
-            return f''''''
+            return f'Olá ' + self.name_user + ', sou um Bot de download de musicas e playlist do Spotify, manda o link e o resto deixa comigo 😊'
         if mensagem == '/start':
             return f'Olá ' + self.name_user + ', sou um Bot de download de musicas e playlist do Spotify, manda o link e o resto deixa comigo 😊'
         
