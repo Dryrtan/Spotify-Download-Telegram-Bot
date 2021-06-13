@@ -17,7 +17,6 @@ def down(chat_id):
 
     while aw <= at:
         musica = lista[aw]
-        #bot.send_message(chat_id=chat_id, text='teste')
         bot.send_audio(chat_id=chat_id, audio=open('./' + musica, 'rb'), timeout=1000)
         aw = aw +1
     else:
