@@ -3,6 +3,7 @@ import requests
 import json
 import os
 import upload
+import time
 
 class TelegramBot:
 
@@ -18,17 +19,21 @@ class TelegramBot:
             dados = atualizacao["result"]
             if dados:
                 for dado in dados:
-                    update_id = dado['update_id']
-                    mensagem = str(dado['message']['text'])
-                    name_user = str(dado["message"]["from"]["first_name"])
-                    self.name_user = name_user
-                    chat_id = dado["message"]["from"]["id"]
-                    self.ids = chat_id
-                    eh_primeira_mensagem = int(
-                        dado["message"]["message_id"]) == 1
-                    resposta = self.criar_resposta(
-                        mensagem, eh_primeira_mensagem)
-                    self.responder(resposta, chat_id)
+                    try:
+                        update_id = dado['update_id']
+                        mensagem = str(dado["message"]["text"])
+                        name_user = str(dado["message"]["from"]["first_name"])
+                        self.name_user = name_user
+                        chat_id = dado["message"]["from"]["id"]
+                        self.ids = chat_id
+                        eh_primeira_mensagem = int(
+                            dado["message"]["message_id"]) == 1
+                        resposta = self.criar_resposta(
+                            mensagem, eh_primeira_mensagem)
+                        self.responder(resposta, chat_id)
+                    except KeyError as e:
+                        time.sleep(5)
+                        print(e)
     # Obtem mensagens
     def obter_novas_mensagens(self, update_id):
         link_requisicao = f'{self.url_base}getUpdates?timeout=1000'
@@ -50,26 +55,30 @@ class TelegramBot:
             upload.sms(self.ids, 'Estamos baixando sua musica, agorinha enviamos.')
             print(mensagem)
             os.system('spotdl "' + mensagem + '" --output-format mp3')
-            upload.sms2(self.ids, 'Quer receber as musica agora?')
-            return f''
+            upload.down(self.ids)
+            #upload.sms2(self.ids, 'Quer receber as musica agora?')
+            return f'Todas as sua musicas foram enviadas 😊\n Muito obrigado por usar meu bot @Dryrtan'
         
         elif 'album' in mensagem:
             upload.sms(self.ids, 'Estamos baixando sua musicas, agorinha enviamos.')
             os.system('spotdl "' + mensagem + '" --output-format mp3')
-            upload.sms2(self.ids, 'Quer receber as musicas agora?')
-            return f''
+            upload.down(self.ids)
+            #upload.sms2(self.ids, 'Quer receber as musicas agora?')
+            return f'Todas as sua musicas foram enviadas 😊\n Muito obrigado por usar meu bot @Dryrtan'
         
         elif 'playlist' in mensagem:
             upload.sms(self.ids, 'Estamos baixando sua musicas, agorinha enviamos.')
             os.system('spotdl "' + mensagem + '" --output-format mp3')
-            upload.sms2(self.ids, 'Quer receber as musicas agora?')
-            return f''
+            upload.down(self.ids)
+            #upload.sms2(self.ids, 'Quer receber as musicas agora?')
+            return f'Todas as sua musicas foram enviadas 😊\n Muito obrigado por usar meu bot @Dryrtan'
 
         elif 'artist' in mensagem:
             upload.sms(self.ids, 'Estamos baixando sua musicas, agorinha enviamos.')
             os.system('spotdl "' + mensagem + '" --output-format mp3')
-            upload.sms2(self.ids, 'Quer receber as musicas agora?')
-            return f''
+            upload.down(self.ids)
+            #upload.sms2(self.ids, 'Quer receber as musicas agora?')
+            return f'Todas as sua musicas foram enviadas 😊\n Muito obrigado por usar meu bot @Dryrtan'
 
         elif 'episode' in mensagem:
             return f'''Eita, infelismente não posso fazer download de podcasts, desculpe, que tal uma música em?! '''
@@ -77,8 +86,10 @@ class TelegramBot:
         elif mensagem.lower() in ('s', 'sim', '/sim'):
             upload.down(self.ids)
             return f'''Todas as sua musicas foram enviadas 😊\n Muito obrigado por usar meu bot @Dryrtan'''
-        elif mensagem.lower() in ('n', 'nao', '/nao'):
-            return f'''😬 Ok, apagando musicas do servidor...'''
+        
+        #elif mensagem.lower() in ('n', 'nao', '/nao'):
+            #return f'''😬 Ok, apagando musicas do servidor...'''
+        
         else:
             print(mensagem)
             return f'''Humm... acho melhor você da uma olhadinha nesse link, não consegui entender. 🤔 🤷🏻♂'''
