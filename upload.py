@@ -5,7 +5,7 @@ import glob
 import telegram
 from telegram import ReplyKeyboardMarkup
 
-TOKEN = '--->SEU TOKEN AQUI<---'
+TOKEN = 'TOKEN AQUI'
 bot = telegram.Bot(token=TOKEN)
 
 def down(chat_id):

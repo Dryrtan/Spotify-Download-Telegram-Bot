@@ -7,7 +7,7 @@ import upload
 class TelegramBot:
 
     def __init__(self):
-        token = '926059547:AAG_lorlGkY03hnubzhshJOxtkgLB93Axic'
+        token = 'TOKEN AQUI'
         self.url_base = f'https://api.telegram.org/bot{token}/'
 
     #Lê partes ecenciais da menssagem retorno do telegram
