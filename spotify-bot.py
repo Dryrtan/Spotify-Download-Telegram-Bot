@@ -1,19 +1,13 @@
 #Codado Por Kleidimar Martins - Dryrtan d(-_-)b
 import requests
-import time
 import json
 import os
-import glob
-import sys
-from telegram.ext import Updater, InlineQueryHandler, CommandHandler
-import telegram
-import pathlib
 import upload
 
 class TelegramBot:
 
     def __init__(self):
-        token = 'TOKEN AQUI'
+        token = '--->SEU TOKEN AQUI<---'
         self.url_base = f'https://api.telegram.org/bot{token}/'
 
     #Lê partes ecenciais da menssagem retorno do telegram
@@ -42,11 +36,10 @@ class TelegramBot:
             link_requisicao = f'{link_requisicao}&offset={update_id + 1}'
         resultado = requests.get(link_requisicao)
         return json.loads(resultado.content)
-
+    
     # Manda musica para o bot
     def criar_resposta(self, mensagem, eh_primeira_mensagem):
-        loc_txt = '/home/dryrtan/Documentos/Spotify_bot/musicas.txt'
-
+        
     # Responde de acordo com o que ouver no campo 'text' da menssagem de retorno do telegram
         if eh_primeira_mensagem == True or mensagem in ('menu', 'Menu'):
             return f''''''
@@ -55,35 +48,40 @@ class TelegramBot:
         
         elif 'track' in mensagem:
             upload.sms(self.ids, 'Estamos baixando sua musica, agorinha enviamos.')
-            os.system('spotdl --song ' + mensagem)
-            return f'''Quer receber as musicas agora?{os.linesep}/sim                      /nao'''
+            print(mensagem)
+            os.system('spotdl "' + mensagem + '" --output-format mp3')
+            upload.sms2(self.ids, 'Quer receber as musica agora?')
+            return f''
         
         elif 'album' in mensagem:
-            upload.sms(self.ids, 'Estamos baixando sua musica, agorinha enviamos.')
-            os.system('spotdl --album ' + mensagem + ' --write-to=' + loc_txt + ' && spotdl --list=musicas.txt && rm -rf musicas.txt')
-            return f'''Quer receber as musicas agora?{os.linesep}/sim                      /nao'''
+            upload.sms(self.ids, 'Estamos baixando sua musicas, agorinha enviamos.')
+            os.system('spotdl "' + mensagem + '" --output-format mp3')
+            upload.sms2(self.ids, 'Quer receber as musicas agora?')
+            return f''
         
         elif 'playlist' in mensagem:
-            upload.sms(self.ids, 'Estamos baixando sua musica, agorinha enviamos.')
-            os.system('spotdl --playlist ' + mensagem + ' --write-to=' + loc_txt + ' && spotdl --list=musicas.txt && rm -rf musicas.txt')
-            return f'''Quer receber as musicas agora?{os.linesep}/sim                      /nao'''
+            upload.sms(self.ids, 'Estamos baixando sua musicas, agorinha enviamos.')
+            os.system('spotdl "' + mensagem + '" --output-format mp3')
+            upload.sms2(self.ids, 'Quer receber as musicas agora?')
+            return f''
 
         elif 'artist' in mensagem:
-            upload.sms(self.ids, 'Estamos baixando sua musica, agorinha enviamos.')
-            os.system('spotdl --all-albums ' + mensagem + ' --write-to=' + loc_txt + '  && spotdl --list=musicas.txt && rm -rf musicas.txt')
-            return f'''Quer receber as musicas agora?{os.linesep}/sim                      /nao'''
+            upload.sms(self.ids, 'Estamos baixando sua musicas, agorinha enviamos.')
+            os.system('spotdl "' + mensagem + '" --output-format mp3')
+            upload.sms2(self.ids, 'Quer receber as musicas agora?')
+            return f''
 
         elif 'episode' in mensagem:
             return f'''Eita, infelismente não posso fazer download de podcasts, desculpe, que tal uma música em?! '''
 
         elif mensagem.lower() in ('s', 'sim', '/sim'):
             upload.down(self.ids)
-            return f'''Todas as sua musicas foram enviadas 😊'''
+            return f'''Todas as sua musicas foram enviadas 😊\n Muito obrigado por usar meu bot @Dryrtan'''
         elif mensagem.lower() in ('n', 'nao', '/nao'):
-            return f'''Como quiser, mas se não poder baixar agora pode ser que aconteça alguns bugs. 😬'''
+            return f'''😬 Ok, apagando musicas do servidor...'''
         else:
             print(mensagem)
-            return f'''Humm... acho melhor você da uma olhadinha nesse link, não consegui entender. 🤔 🤷🏻‍♂️'''
+            return f'''Humm... acho melhor você da uma olhadinha nesse link, não consegui entender. 🤔 🤷🏻♂'''
 
 
     # Responde em texto

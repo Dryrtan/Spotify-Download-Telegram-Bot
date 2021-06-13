@@ -1,14 +1,11 @@
 # -*- coding: utf-8 -*-
 #Codado Por Kleidimar Martins - Dryrtan d(-_-)b
 import os
-import sys
 import glob
-from telegram.ext import Updater, InlineQueryHandler, CommandHandler
 import telegram
-import pathlib
+from telegram import ReplyKeyboardMarkup
 
-
-TOKEN = 'TOKEN AQUI'
+TOKEN = '--->SEU TOKEN AQUI<---'
 bot = telegram.Bot(token=TOKEN)
 
 def down(chat_id):
@@ -21,10 +18,16 @@ def down(chat_id):
     while aw <= at:
         musica = lista[aw]
         #bot.send_message(chat_id=chat_id, text='teste')
-        bot.send_audio(chat_id=chat_id, audio=open('/home/dryrtan/Documentos/Spotify_bot/' + musica, 'rb'), timeout=1000)
+        bot.send_audio(chat_id=chat_id, audio=open('./' + musica, 'rb'), timeout=1000)
         aw = aw +1
     else:
         os.system('rm -rf *.mp3')
 
 def sms(chat_id, sms):
     bot.send_message(chat_id=chat_id, text=sms)
+
+def sms2(chat_id, sms):
+    menu_keyboard = [['Sim'], ['Não']]
+    menu_markup = ReplyKeyboardMarkup(menu_keyboard, one_time_keyboard=True, resize_keyboard=True)
+    bot.send_message(chat_id=chat_id, text=sms, reply_markup = menu_markup)
+#sms(864397332, 'Teste')
