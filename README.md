@@ -11,7 +11,7 @@ Você pode acessar ele atraves do link dele no Telegram -> http://t.me/Dryrtanbo
 ```shell
 sudo apt update && sudo apt install python3 -y
 sudo apt install python3-pip -y
-sudo pip3 install spotdl
+sudo pip3 install savify
 sudo apt install ffmpeg
 sudo pip install python-telegram-bot
 ```
