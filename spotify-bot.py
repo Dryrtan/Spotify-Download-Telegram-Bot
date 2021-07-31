@@ -54,28 +54,28 @@ class TelegramBot:
         elif 'track' in mensagem:
             upload.sms(self.ids, 'Estamos baixando sua musica, agorinha enviamos.')
             print(mensagem)
-            os.system('spotdl "' + mensagem + '" --output-format mp3')
+            os.system('savify "' + mensagem + '"  -q best -f mp3 -o "/home/admin/Spotify-Download-Telegram-Bot/"')
             upload.down(self.ids)
             #upload.sms2(self.ids, 'Quer receber as musica agora?')
-            return f'Todas as sua musicas foram enviadas 😊\n Muito obrigado por usar meu bot @Dryrtan'
+            return f'Sua musica foi enviada 😊\n Muito obrigado por usar meu bot \natt\n@Dryrtan'
         
         elif 'album' in mensagem:
             upload.sms(self.ids, 'Estamos baixando sua musicas, agorinha enviamos.')
-            os.system('spotdl "' + mensagem + '" --output-format mp3')
+            os.system('savify "' + mensagem + '"  -q best -f mp3 -o "/home/admin/Spotify-Download-Telegram-Bot/"')
             upload.down(self.ids)
             #upload.sms2(self.ids, 'Quer receber as musicas agora?')
             return f'Todas as sua musicas foram enviadas 😊\n Muito obrigado por usar meu bot @Dryrtan'
         
         elif 'playlist' in mensagem:
             upload.sms(self.ids, 'Estamos baixando sua musicas, agorinha enviamos.')
-            os.system('spotdl "' + mensagem + '" --output-format mp3')
+            os.system('savify "' + mensagem + '"  -q best -f mp3 -o "/home/admin/Spotify-Download-Telegram-Bot/"')
             upload.down(self.ids)
             #upload.sms2(self.ids, 'Quer receber as musicas agora?')
             return f'Todas as sua musicas foram enviadas 😊\n Muito obrigado por usar meu bot @Dryrtan'
 
         elif 'artist' in mensagem:
             upload.sms(self.ids, 'Estamos baixando sua musicas, agorinha enviamos.')
-            os.system('spotdl "' + mensagem + '" --output-format mp3')
+            os.system('savify "' + mensagem + '"  -q best -f mp3 -o "/home/admin/Spotify-Download-Telegram-Bot/"')
             upload.down(self.ids)
             #upload.sms2(self.ids, 'Quer receber as musicas agora?')
             return f'Todas as sua musicas foram enviadas 😊\n Muito obrigado por usar meu bot @Dryrtan'
