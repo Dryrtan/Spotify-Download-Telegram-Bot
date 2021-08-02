@@ -11,7 +11,6 @@ Você pode acessar ele atraves do link dele no Telegram -> http://t.me/Dryrtanbo
 ```
 pip3 install -r requirements.txt
 ```
-export SPOTIPY_CLIENT_ID="5e6255677f0e45d88f7bca88be5ed339" && export SPOTIPY_CLIENT_SECRET="2a2df0236b0d40f8ae8328fff2ca02e2"
 - Após isso mudaremos o token do bot do Telegram localizado em config.py
 ```
 TOKEN = 'TOKEN DO BOT AQUI'
