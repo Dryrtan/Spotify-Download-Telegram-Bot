@@ -4,12 +4,12 @@ import json
 import os
 import upload
 import time
+import config
 
 class TelegramBot:
 
     def __init__(self):
-        token = 'TOKEN AQUI'
-        self.url_base = f'https://api.telegram.org/bot{token}/'
+        self.url_base = f'https://api.telegram.org/bot'+config.TOKEN+'/'
 
     #Lê partes ecenciais da menssagem retorno do telegram
     def Iniciar(self):

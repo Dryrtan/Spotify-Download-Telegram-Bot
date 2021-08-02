@@ -4,9 +4,10 @@ import os
 import glob
 import telegram
 from telegram import ReplyKeyboardMarkup
+import config
 
-TOKEN = 'TOKEN AQUI'
-bot = telegram.Bot(token=TOKEN)
+#TOKEN = config.TOKEN
+bot = telegram.Bot(token=config.TOKEN)
 
 def down(chat_id):
     lista = glob.glob('*.mp3')
