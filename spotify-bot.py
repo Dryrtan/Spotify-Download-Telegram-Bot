@@ -20,11 +20,11 @@ class TelegramBot:
             if dados:
                 for dado in dados:
                     try:
-                        update_id = dado['update_id']
-                        mensagem = str(dado["message"]["text"])
-                        name_user = str(dado["message"]["from"]["first_name"])
+                        update_id = dado['update_id'] #Pega o id da mensagem
+                        mensagem = str(dado["message"]["text"]) #texto da mensagem
+                        name_user = str(dado["message"]["from"]["first_name"]) #nome do usuario
                         self.name_user = name_user
-                        chat_id = dado["message"]["from"]["id"]
+                        chat_id = dado["message"]["from"]["id"] #id do usuario
                         self.ids = chat_id
                         eh_primeira_mensagem = int(
                             dado["message"]["message_id"]) == 1
@@ -36,10 +36,10 @@ class TelegramBot:
                         print(e)
     # Obtem mensagens
     def obter_novas_mensagens(self, update_id):
-        link_requisicao = f'{self.url_base}getUpdates?timeout=1000'
+        link_requisicao = f'{self.url_base}getUpdates?timeout=1000' #tempo de espera
         if update_id:
             link_requisicao = f'{link_requisicao}&offset={update_id + 1}'
-        resultado = requests.get(link_requisicao)
+        resultado = requests.get(link_requisicao) #requisicao
         return json.loads(resultado.content)
     
     # Manda musica para o bot
@@ -97,7 +97,7 @@ class TelegramBot:
 
     # Responde em texto
     def responder(self, resposta, chat_id):
-        link_requisicao = f'{self.url_base}sendMessage?chat_id={chat_id}&text={resposta}'
+        link_requisicao = f'{self.url_base}sendMessage?chat_id={chat_id}&text={resposta}' 
         requests.get(link_requisicao)
 
 Bot = TelegramBot()
