@@ -31,9 +31,10 @@ class TelegramBot:
                         resposta = self.criar_resposta(
                             mensagem, eh_primeira_mensagem)
                         self.responder(resposta, chat_id)
-                    except KeyError as e:
+                        
+                    except:
                         time.sleep(5)
-                        print(e)
+                        pass
     # Obtem mensagens
     def obter_novas_mensagens(self, update_id):
         link_requisicao = f'{self.url_base}getUpdates?timeout=1000' #tempo de espera
@@ -44,7 +45,7 @@ class TelegramBot:
     
     # Manda musica para o bot
     def criar_resposta(self, mensagem, eh_primeira_mensagem):
-        
+        os.system(f'mkdir ./{config.pasta_downloads}')
     # Responde de acordo com o que ouver no campo 'text' da menssagem de retorno do telegram
         if eh_primeira_mensagem == True or mensagem in ('menu', 'Menu'):
             return f'Olá ' + self.name_user + ', sou um Bot de download de musicas e playlist do Spotify, manda o link e o resto deixa comigo 😊'
@@ -53,29 +54,29 @@ class TelegramBot:
         
         elif 'track' in mensagem:
             upload.sms(self.ids, 'Estamos baixando sua musica, agorinha enviamos.')
-            print(mensagem)
-            os.system('savify "' + mensagem + '"  -q best -f mp3 -o "/home/admin/Spotify-Download-Telegram-Bot/"')
+            print(f'savify "{mensagem}" -q best -f mp3 -o "./{config.pasta_downloads}"')
+            os.system(f'savify "{mensagem}" -q best -f mp3 -o "./{config.pasta_downloads}"')
             upload.down(self.ids)
             #upload.sms2(self.ids, 'Quer receber as musica agora?')
             return f'Sua musica foi enviada 😊\n Muito obrigado por usar meu bot \natt\n@Dryrtan'
         
         elif 'album' in mensagem:
             upload.sms(self.ids, 'Estamos baixando sua musicas, agorinha enviamos.')
-            os.system('savify "' + mensagem + '"  -q best -f mp3 -o "/home/admin/Spotify-Download-Telegram-Bot/"')
+            os.system(f'savify "{mensagem}"  -q best -f mp3 -o "./{config.pasta_downloads}"')
             upload.down(self.ids)
             #upload.sms2(self.ids, 'Quer receber as musicas agora?')
             return f'Todas as sua musicas foram enviadas 😊\n Muito obrigado por usar meu bot @Dryrtan'
         
         elif 'playlist' in mensagem:
             upload.sms(self.ids, 'Estamos baixando sua musicas, agorinha enviamos.')
-            os.system('savify "' + mensagem + '"  -q best -f mp3 -o "/home/admin/Spotify-Download-Telegram-Bot/"')
+            os.system(f'savify "{mensagem}" -q best -f mp3 -o "./{config.pasta_downloads}"')
             upload.down(self.ids)
             #upload.sms2(self.ids, 'Quer receber as musicas agora?')
             return f'Todas as sua musicas foram enviadas 😊\n Muito obrigado por usar meu bot @Dryrtan'
 
         elif 'artist' in mensagem:
             upload.sms(self.ids, 'Estamos baixando sua musicas, agorinha enviamos.')
-            os.system('savify "' + mensagem + '"  -q best -f mp3 -o "/home/admin/Spotify-Download-Telegram-Bot/"')
+            os.system(f'savify "{mensagem}"  -q best -f mp3 -o "./{config.pasta_downloads}"')
             upload.down(self.ids)
             #upload.sms2(self.ids, 'Quer receber as musicas agora?')
             return f'Todas as sua musicas foram enviadas 😊\n Muito obrigado por usar meu bot @Dryrtan'
